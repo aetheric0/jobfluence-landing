@@ -29,7 +29,25 @@
     /* Form card */
     .form-card { background: white; max-width: 500px; margin: 3rem auto; padding: 2rem; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
     .form-card:before { content: ''; position: absolute; width: 150%; height: 150%; background: radial-gradient(circle, #2a2a72, #009ffd); top: -50%; left: -50%; opacity: 0.05; transform: rotate(45deg); }
-    form { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; position: relative; }
+    form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    position: relative;
+    justify-items: center;
+    align-items: center;
+  }
+  
+  /* Make email span full width */
+  form input[type="email"] {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+  
+  /* Center individual input fields */
+  form input[type="text"] {
+    width: 100%;
+  }
     form input, form button { font-size: 1rem; padding: 0.8rem; border: none; outline: none; }
     form input[type="text"], form input[type="email"] { border-radius: 8px; border: 1px solid #ccc; }
     form button { grid-column: 1 / -1; background: #ff5a5f; color: white; border-radius: 8px; cursor: pointer; transition: background 0.3s, transform 0.3s; }
