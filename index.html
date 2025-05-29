@@ -5,68 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JobFluence</title>
   <style>
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-    body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; background: #f0f4f8; color: #333; }
-    header { background: linear-gradient(135deg, #2a2a72, #009ffd); color: white; text-align: center; padding: 4rem 1rem; position: relative; overflow: hidden; }
-    header h1 { font-size: 3rem; margin: 0; }
-    header p { font-size: 1.2rem; margin: 1rem 0; }
-    .envelope { width: 60px; position: absolute; top: 20px; right: 20px; animation: float 3s ease-in-out infinite; }
-    .coming-soon { margin: 1.5rem 0; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
-    .coming-soon span { margin-right: 0.8rem; }
-    .ball { width: 20px; height: 20px; background: #ff5a5f; border-radius: 50%; display: inline-block; animation: bounce 1s ease-in-out infinite; }
-    form { margin-top: 1.5rem; display: inline-flex; }
-    input[type="email"] { padding: 0.8rem; width: 250px; border: none; border-radius: 4px 0 0 4px; font-size: 1rem; }
-    button { padding: 0.8rem 1.2rem; border: none; background: #ff5a5f; color: white; font-size: 1rem; border-radius: 0 4px 4px 0; cursor: pointer; transition: background .3s; }
-    button:hover { background: #e0484f; }
+    /* Base resets */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; background: radial-gradient(circle at top left, #e0f7fa, #f0f4f8); color: #333; overflow-x: hidden; }
+
+    /* Floating background circles */
+    .bg-circle { position: absolute; border-radius: 50%; opacity: 0.2; animation: bgfloat 20s infinite ease-in-out; }
+    .bg-circle.one { width: 300px; height: 300px; background: #009ffd; top: -100px; left: -100px; animation-delay: 0s; }
+    .bg-circle.two { width: 200px; height: 200px; background: #2a2a72; bottom: -80px; right: -80px; animation-delay: 5s; }
+    @keyframes bgfloat { 0%,100% { transform: translateY(0) translateX(0); } 50% { transform: translateY(20px) translateX(20px); } }
+
+    header { position: relative; text-align: center; padding: 6rem 1rem 4rem; }
+    header h1 { font-size: 4rem; color: #2a2a72; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+    header p { font-size: 1.3rem; margin: 1rem 0 2rem; }
+
+    /* Coming Soon banner */
+    .coming-soon { display: inline-flex; align-items: center; background: white; padding: 0.5rem 1rem; border-radius: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); animation: popin 1s ease-out; }
+    .coming-soon span { margin-right: 0.8rem; font-weight: bold; color: #009ffd; }
+    .ball { width: 16px; height: 16px; background: #ff5a5f; border-radius: 50%; animation: bounce 1s infinite ease-in-out; }
+    @keyframes popin { from { transform: scale(0.6); opacity: 0; } to{ transform: scale(1); opacity:1; }}
+    @keyframes bounce { 0%,100%{transform: translateY(0);}50%{transform: translateY(-10px);} }
+
+    /* Form card */
+    .form-card { background: white; max-width: 500px; margin: 3rem auto; padding: 2rem; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
+    .form-card:before { content: ''; position: absolute; width: 150%; height: 150%; background: radial-gradient(circle, #2a2a72, #009ffd); top: -50%; left: -50%; opacity: 0.05; transform: rotate(45deg); }
+    form { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; position: relative; }
+    form input, form button { font-size: 1rem; padding: 0.8rem; border: none; outline: none; }
+    form input[type="text"], form input[type="email"] { border-radius: 8px; border: 1px solid #ccc; }
+    form button { grid-column: 1 / -1; background: #ff5a5f; color: white; border-radius: 8px; cursor: pointer; transition: background 0.3s, transform 0.3s; }
+    form button:hover { background: #e0484f; transform: translateY(-2px); }
+
+    /* Feature cards */
     section.features { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
-    section.features h2 { text-align: center; font-size: 2.2rem; color: #2a2a72; }
-    .feature-card { background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin: 1rem 0; display: flex; align-items: center; }
-    .feature-card img { width: 50px; margin-right: 1rem; }
-    .feature-card p { margin: 0; font-size: 1rem; }
-    footer { background: #fff; text-align: center; padding: 1rem; font-size: 0.9rem; color: #666; border-top: 1px solid #e0e0e0; }
-    footer a { color: #009ffd; margin: 0 0.5rem; text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
+    section.features h2 { text-align: center; font-size: 2.5rem; color: #2a2a72; margin-bottom: 1.5rem; position: relative; }
+    .feature-card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 16px rgba(0,0,0,0.06); margin: 1rem 0; display: flex; align-items: center; transition: transform 0.3s, box-shadow 0.3s; }
+    .feature-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.1); }
+    .feature-card img { width: 48px; margin-right: 1rem; }
+    .feature-card p { margin: 0; font-size: 1.1rem; }
+
+    /* Footer */
+    footer { text-align: center; padding: 2rem 1rem; font-size: 0.9rem; color: #666; }
+    footer a { color: #009ffd; margin: 0 0.5rem; text-decoration: none; transition: color 0.3s; }
+    footer a:hover { color: #2a2a72; }
   </style>
 </head>
 <body>
+  <!-- Decorative background circles -->
+  <div class="bg-circle one"></div>
+  <div class="bg-circle two"></div>
+
   <header>
     <h1>JobFluence</h1>
     <p>Smarter resume feedback. Faster hiring decisions.</p>
-    <img src="https://img.icons8.com/fluent/48/000000/new-post.png" alt="Envelope" class="envelope" />
     <div class="coming-soon">
-      <span>🚀 Mark the date: June 12, 2025</span>
-      <div class="ball"></div>
+      <span>🚀 Mark the date: June 12, 2025</span><div class="ball"></div>
     </div>
-    <form id="subscribe-form" name="prelaunch-signup" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you.html">
-      <input type="hidden" name="bot-field" />
-      <input type="hidden" name="form-name" value="prelaunch-signup" />
-      <input type="text" name="firstName" placeholder="First Name (optional)" />
-      <input type="text" name="lastName" placeholder="Last Name (optional)" />
-      <input type="email" id="email" name="email" placeholder="Enter your email" required />
-      <button type="submit">Get Early Access</button>
-    </form>
+
+    <div class="form-card">
+      <form id="subscribe-form" name="prelaunch-signup" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you.html">
+        <input type="hidden" name="bot-field" />
+        <input type="hidden" name="form-name" value="prelaunch-signup" />
+        <input type="text" name="firstName" placeholder="First Name (optional)" />
+        <input type="text" name="lastName" placeholder="Last Name (optional)" />
+        <input type="email" id="email" name="email" placeholder="Your email address" required />
+        <button type="submit">Get Early Access</button>
+      </form>
+    </div>
   </header>
 
   <section class="features">
     <h2>Why JobFluence?</h2>
     <div class="feature-card">
       <img src="https://img.icons8.com/ios-filled/50/009ffd/clock.png" alt="Fast" />
-      <p><strong>Instant AI Insights:</strong> Get detailed resume feedback in under 30 seconds.</p>
+      <p><strong>Instant AI Insights:</strong> Detailed resume feedback in under 30 seconds.</p>
     </div>
     <div class="feature-card">
       <img src="https://img.icons8.com/ios-filled/50/009ffd/ai.png" alt="AI" />
-      <p><strong>Semantic Matching:</strong> Our AI sees beyond keywords to pinpoint gaps and strengths.</p>
+      <p><strong>Semantic Matching:</strong> Our AI sees beyond keywords to pinpoint gaps.</p>
     </div>
     <div class="feature-card">
       <img src="https://img.icons8.com/ios-filled/50/009ffd/workflow.png" alt="Recruit" />
-      <p><strong>Employer-Ready:</strong> Recruiters rank and filter candidates with ease.</p>
+      <p><strong>Employer-Ready:</strong> Rank and filter candidates with ease.</p>
     </div>
   </section>
 
