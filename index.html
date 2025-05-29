@@ -9,11 +9,18 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
     body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; background: #f0f4f8; color: #333; }
-    header { background: linear-gradient(135deg, #2a2a72, #009ffd); color: white; text-align: center; padding: 3rem 1rem; position: relative; overflow: hidden; }
+    header { background: linear-gradient(135deg, #2a2a72, #009ffd); color: white; text-align: center; padding: 4rem 1rem; position: relative; overflow: hidden; }
     header h1 { font-size: 3rem; margin: 0; }
     header p { font-size: 1.2rem; margin: 1rem 0; }
     .envelope { width: 60px; position: absolute; top: 20px; right: 20px; animation: float 3s ease-in-out infinite; }
+    .coming-soon { margin: 1.5rem 0; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
+    .coming-soon span { margin-right: 0.8rem; }
+    .ball { width: 20px; height: 20px; background: #ff5a5f; border-radius: 50%; display: inline-block; animation: bounce 1s ease-in-out infinite; }
     form { margin-top: 1.5rem; display: inline-flex; }
     input[type="email"] { padding: 0.8rem; width: 250px; border: none; border-radius: 4px 0 0 4px; font-size: 1rem; }
     button { padding: 0.8rem 1.2rem; border: none; background: #ff5a5f; color: white; font-size: 1rem; border-radius: 0 4px 4px 0; cursor: pointer; transition: background .3s; }
@@ -33,6 +40,10 @@
     <h1>JobFluence</h1>
     <p>Smarter resume feedback. Faster hiring decisions.</p>
     <img src="https://img.icons8.com/fluent/48/000000/new-post.png" alt="Envelope" class="envelope" />
+    <div class="coming-soon">
+      <span>🚀 Mark the date: June 12, 2025</span>
+      <div class="ball"></div>
+    </div>
     <form id="subscribe-form">
       <input type="email" id="email" name="email" placeholder="Enter your email" required />
       <button type="submit">Get Early Access</button>
@@ -65,7 +76,6 @@
     document.getElementById('subscribe-form').addEventListener('submit', function(e) {
       e.preventDefault();
       const email = document.getElementById('email').value;
-      // Netlify form submission fallback
       fetch('https://formspree.io/f/YOUR_FORM_ID', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
