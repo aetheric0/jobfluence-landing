@@ -44,7 +44,11 @@
       <span>🚀 Mark the date: June 12, 2025</span>
       <div class="ball"></div>
     </div>
-    <form id="subscribe-form">
+    <form id="subscribe-form" name="prelaunch-signup" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="bot-field" />
+      <input type="hidden" name="form-name" value="prelaunch-signup" />
+      <input type="text" name="firstName" placeholder="First Name (optional)" />
+      <input type="text" name="lastName" placeholder="Last Name (optional)" />
       <input type="email" id="email" name="email" placeholder="Enter your email" required />
       <button type="submit">Get Early Access</button>
     </form>
@@ -71,26 +75,5 @@
     <a href="/legal/privacy.html" target="_blank">Privacy Policy</a>
     <p>&copy; 2025 JobFluence. All rights reserved.</p>
   </footer>
-
-  <script>
-    document.getElementById('subscribe-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      fetch('https://formspree.io/f/YOUR_FORM_ID', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      })
-      .then(res => {
-        if (res.ok) {
-          alert('Thank you! Check your inbox for confirmation.');
-          document.getElementById('email').value = '';
-        } else {
-          alert('Oops! Something went wrong.');
-        }
-      })
-      .catch(() => alert('Network error, please try again.'));
-    });
-  </script>
 </body>
 </html>
